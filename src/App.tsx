@@ -84,16 +84,24 @@ function App() {
         const user = userRes.value;
         const empNo = user.employee.no;
 
-        const [monthSummaryRes, businessDayRes, attendanceMonthRes, vacationRes, dailyRes] =
+        const [businessDayRes, attendanceMonthRes, vacationRes, dailyRes] =
           await Promise.all([
-            fetchAttendanceMonthSummary(t, 336),
             fetchBusinessDay(t, yearMonth),
             fetchAttendanceMonth(t, empNo, yearMonth),
             fetchVacationCount(t, yearMonth),
             fetchDailyAttendance(t),
           ]);
 
-        if (monthSummaryRes.resultCode !== 0 || attendanceMonthRes.resultCode !== 0) {
+        if (attendanceMonthRes.resultCode !== 0) {
+          setError("근태 데이터 조회 실패");
+          clearToken();
+          return;
+        }
+
+        const ccmId = attendanceMonthRes.value.ccmId;
+        const monthSummaryRes = await fetchAttendanceMonthSummary(t, ccmId);
+
+        if (monthSummaryRes.resultCode !== 0) {
           setError("근태 데이터 조회 실패");
           clearToken();
           return;
