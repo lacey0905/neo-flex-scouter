@@ -153,9 +153,9 @@ function App() {
   const contractSec = contractHour * 3600;
   const remainSec = Math.max(contractSec - recognizedSec, 0);
 
-  // 근무종료 → 오늘 완료, 잔여일에서 제외 / 근무중 → 오늘 포함
+  // 오늘 실시간 근무가 잔여시간에 이미 반영되므로, 잔여일은 내일부터 카운트
   const remainDays = data
-    ? data.businessDay.month - data.businessDay.today + (isWorkEnded ? 0 : 1)
+    ? data.businessDay.month - data.businessDay.today
     : 0;
   // 네오닷 계산: 오늘 실시간 + 내일부터 네오닷 전까지 8시간 고정
   const NEODOT_DAY_SEC = 8 * 3600;
