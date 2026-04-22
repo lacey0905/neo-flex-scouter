@@ -174,6 +174,15 @@ function App() {
   const projectedRecognizedWithNeoDot = projectedWithNeoDot + vacationPaySec;
   const flexIfWork = Math.max(projectedRecognizedWithNeoDot - contractSec, 0);
 
+  // 오늘 8시간 근무 가정 시 Flex 수당
+  const actualWorkSec8h = actualWorkSec - todayNetWorkSec + NEODOT_DAY_SEC;
+  const projectedWithoutNeoDot8h = actualWorkSec8h + futureDaysBeforeNeoDot * NEODOT_DAY_SEC;
+  const projectedRecognizedWithoutNeoDot8h = projectedWithoutNeoDot8h + vacationPaySec;
+  const flexIfRest8h = Math.max(projectedRecognizedWithoutNeoDot8h - contractSec, 0);
+  const projectedWithNeoDot8h = projectedWithoutNeoDot8h + NEODOT_DAY_SEC;
+  const projectedRecognizedWithNeoDot8h = projectedWithNeoDot8h + vacationPaySec;
+  const flexIfWork8h = Math.max(projectedRecognizedWithNeoDot8h - contractSec, 0);
+
   return (
     <div className="app">
       <header className="header">
@@ -337,6 +346,8 @@ function App() {
                     <span className="neodot-card__label">Flex 수당</span>
                     <span className={`neodot-card__value ${flexIfRest > 0 ? "neodot-card__value--rest" : "neodot-card__value--zero"}`}>
                       {flexIfRest > 0 ? formatSec(flexIfRest) : "없음"}
+                      {" "}
+                      <span className="neodot-card__8h">({flexIfRest8h > 0 ? formatSec(flexIfRest8h) : "없음"})</span>
                     </span>
                   </div>
                 </div>
@@ -358,15 +369,19 @@ function App() {
                     <span className="neodot-card__label">Flex 수당</span>
                     <span className="neodot-card__value neodot-card__value--work">
                       {formatSec(flexIfWork)}
+                      {" "}
+                      <span className="neodot-card__8h">({formatSec(flexIfWork8h)})</span>
                     </span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="neodot-note">
-              오늘 실시간 기준 · 내일부터 1일 = 8시간 고정 추정
-            </div>
+            <ul className="neodot-note">
+              <li>오늘 실시간 기준</li>
+              <li>내일부터 1일 = 8시간 고정 추정</li>
+              <li>괄호 = 오늘 8시간 근무 가정</li>
+            </ul>
           </section>
 
         </div>
