@@ -1,0 +1,59 @@
+// 공용 색상 토큰. 각 컴포넌트 SCSS에서 `@use "../styles/variables" as *;` 로 사용한다.
+$bg-primary: #0f1117;
+$bg-card: #161b22;
+$bg-input: #0d1117;
+$border: #30363d;
+$border-focus: #58a6ff;
+$text-primary: #e1e4e8;
+$text-secondary: #8b949e;
+$text-label: #c9d1d9;
+$accent: #58a6ff;
+$accent-hover: #79b8ff;
+$success: #3fb950;
+$error: #f85149;
+$warning: #d29922;
+$vacation: #a371f7;
+
+// ── 시맨틱 토큰 (요약 카드 디자인 시스템) ──
+// 헤딩용 강조 텍스트(거의 흰색) — 헤딩마다 다른 흰색 hex 통일
+$text-strong: #f4f7fb;
+
+// 작은 텍스트 가독성용 밝은 강조색 (저채도 배경 위 대비 확보)
+$success-bright: #69d66f;
+$accent-bright: #70b6ff;
+
+// 내부 패널 표면 / 외곽선(헤어라인)
+$panel: rgba(12, 17, 25, 0.5);
+$panel-soft: rgba(12, 17, 25, 0.4);
+$hairline: rgba(255, 255, 255, 0.08);
+$hairline-soft: rgba(255, 255, 255, 0.06);
+
+// 스페이싱 스케일 (4의 배수)
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 20px;
+
+// 라운드 스케일
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-xl: 22px;
+
+// 타이포 스케일
+$fs-label: 11px;
+$fs-caption: 12px;
+$fs-body: 13px;
+$fs-md: 15px;
+$fs-lg: 18px;
+$fs-xl: 22px;
+$fs-2xl: 26px;
+
+// 섹션 소제목(키커) 공통 스타일 — 흩어진 라벨 규칙 통합
+@mixin kicker {
+  color: $text-secondary;
+  font-size: $fs-label;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}

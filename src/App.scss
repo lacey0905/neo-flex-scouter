@@ -1,17 +1,7 @@
-$bg-primary: #0f1117;
-$bg-card: #161b22;
-$bg-input: #0d1117;
-$border: #30363d;
-$border-focus: #58a6ff;
-$text-primary: #e1e4e8;
-$text-secondary: #8b949e;
-$text-label: #c9d1d9;
-$accent: #58a6ff;
-$accent-hover: #79b8ff;
-$success: #3fb950;
-$error: #f85149;
-$warning: #d29922;
-$vacation: #a371f7;
+@use "./styles/variables" as *;
+
+// 전역 레이아웃 및 여러 컴포넌트가 공유하는 유틸·애니메이션만 둔다.
+// 컴포넌트 전용 스타일은 각 컴포넌트의 *.scss 로 분리되어 있다.
 
 .app {
   max-width: 720px;
@@ -21,109 +11,10 @@ $vacation: #a371f7;
   @media (max-width: 500px) {
     padding: 20px 14px 60px;
   }
-}
 
-// Header
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
-
-  &__left {
-    text-align: left;
-  }
-
-  &__title {
-    font-size: 22px;
-    font-weight: 700;
-    color: $text-primary;
-    letter-spacing: -0.5px;
-    span { color: $accent; }
-  }
-
-  &__subtitle {
-    margin-top: 4px;
-    font-size: 12px;
-    color: $text-secondary;
-  }
-
-  &__user {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  &__user-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 2px;
-  }
-
-  &__user-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: $text-primary;
-  }
-
-  &__user-duty {
-    font-size: 10px;
-    color: $text-secondary;
-  }
-
-  &__user-photo {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 2px solid $border;
-  }
-
-  @media (max-width: 500px) {
-    margin-bottom: 16px;
-
-    &__title { font-size: 18px; }
-    &__subtitle { font-size: 11px; }
-    &__user-name { font-size: 12px; }
-    &__user-duty { display: none; }
-    &__user-photo { width: 28px; height: 28px; }
-  }
-}
-
-// Token Input
-.token-form {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 28px;
-
-  &__input {
-    flex: 1;
-    padding: 11px 14px;
-    background: $bg-input;
-    border: 1px solid $border;
-    border-radius: 8px;
-    color: $text-primary;
-    font-size: 13px;
-    font-family: "Cascadia Code", "Fira Code", monospace;
-    outline: none;
-    transition: border-color 0.2s;
-    &::placeholder { color: $text-secondary; }
-    &:focus { border-color: $border-focus; }
-  }
-
-  &__button {
-    padding: 11px 24px;
-    background: $accent;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
-    &:hover:not(:disabled) { background: $accent-hover; }
-    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  // 데스크탑: 달력·요약 2분할을 담을 수 있도록 폭 확장
+  @media (min-width: 1024px) {
+    max-width: 1200px;
   }
 }
 
@@ -160,142 +51,33 @@ $vacation: #a371f7;
   to { transform: rotate(360deg); }
 }
 
-// Dashboard
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
 .dashboard {
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  // 데스크탑: 달력(좌, 넓게) · 요약(우, 좁게) 2분할
+  @media (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    align-items: start;
+    gap: 20px;
+
+    .calendar-section { margin-top: 0; }
+  }
 }
 
+// 여러 섹션이 공유하는 제목/레전드 유틸
 .section-title {
   font-size: 14px;
   font-weight: 700;
   color: $text-primary;
   margin-bottom: 12px;
-}
-
-// Work Section (combined)
-.work-section {
-  background: $bg-card;
-  border: 1px solid $border;
-  border-radius: 12px;
-  padding: 16px;
-}
-
-.work-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-bottom: 16px;
-
-  @media (max-width: 500px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-}
-
-.stat-card {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px;
-  background: $bg-input;
-  border: 1px solid $border;
-  border-radius: 8px;
-
-  &__label {
-    font-size: 10px;
-    color: $text-secondary;
-    letter-spacing: 0.3px;
-  }
-
-  &__value {
-    font-size: 15px;
-    font-weight: 700;
-    color: $text-label;
-  }
-
-  &--accent &__value {
-    color: $accent;
-  }
-
-  &--warning &__value {
-    color: $warning;
-  }
-
-  @media (max-width: 500px) {
-    padding: 10px;
-    &__value { font-size: 14px; }
-  }
-}
-
-// Progress Bar
-.progress-section {
-  margin-bottom: 0;
-}
-
-.progress-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 10px;
-
-  &__label {
-    font-size: 12px;
-    color: $text-secondary;
-  }
-
-  &__value {
-    font-size: 13px;
-    font-weight: 600;
-    color: $text-primary;
-  }
-
-  &__pct {
-    margin-left: 6px;
-    font-size: 12px;
-    font-weight: 700;
-    color: $accent;
-  }
-
-  @media (max-width: 500px) {
-    flex-direction: column;
-    gap: 2px;
-    &__label { font-size: 11px; }
-    &__value { font-size: 12px; }
-  }
-}
-
-.progress-bar {
-  &__track {
-    position: relative;
-    height: 10px;
-    background: #6e2228;
-    border-radius: 5px;
-    overflow: hidden;
-  }
-
-  &__fill {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    transition: width 0.6s ease;
-
-    &--work {
-      background: $accent;
-      left: 0;
-    }
-
-    &--vacation {
-      background: $vacation;
-    }
-  }
-}
-
-.progress-legend {
-  display: flex;
-  gap: 16px;
-  margin-top: 8px;
 }
 
 .legend-item {
@@ -305,204 +87,3 @@ $vacation: #a371f7;
   font-size: 12px;
   color: $text-secondary;
 }
-
-.legend-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-
-  &--work { background: $accent; }
-  &--vacation { background: $vacation; }
-}
-
-// NeoDot Section
-.neodot-section {
-  background: $bg-card;
-  border: 1px solid $border;
-  border-radius: 12px;
-  padding: 16px;
-}
-
-.neodot-verdict {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
-  border-radius: 10px;
-  margin-bottom: 16px;
-
-  &--yes {
-    background: rgba($success, 0.08);
-    border: 1px solid rgba($success, 0.25);
-  }
-
-  &--no {
-    background: rgba($error, 0.08);
-    border: 1px solid rgba($error, 0.25);
-  }
-
-  &__icon {
-    flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: 18px;
-    font-weight: 800;
-
-    .neodot-verdict--yes & {
-      background: rgba($success, 0.15);
-      color: $success;
-    }
-
-    .neodot-verdict--no & {
-      background: rgba($error, 0.15);
-      color: $error;
-    }
-  }
-
-  &__text {
-    strong {
-      font-size: 15px;
-      display: block;
-      margin-bottom: 4px;
-      color: $text-primary;
-
-      .neodot-verdict--yes & { color: $success; }
-    }
-
-    p {
-      font-size: 13px;
-      color: $text-secondary;
-    }
-  }
-
-  &__highlight {
-    font-size: 18px;
-    font-weight: 800;
-    color: $error;
-    font-family: "Cascadia Code", "Fira Code", monospace;
-  }
-}
-
-.neodot-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-
-  @media (max-width: 500px) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.neodot-card {
-  background: $bg-input;
-  border: 1px solid $border;
-  border-radius: 10px;
-  overflow: hidden;
-  transition: border-color 0.2s;
-
-  &--rest {
-    border-color: rgba($success, 0.25);
-  }
-
-  &--work {
-    border-color: rgba($accent, 0.25);
-  }
-
-  &__header {
-    padding: 10px 14px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid $border;
-
-    .neodot-card--rest & {
-      color: $success;
-      background: rgba($success, 0.06);
-    }
-
-    .neodot-card--work & {
-      color: $accent;
-      background: rgba($accent, 0.06);
-    }
-  }
-
-  &__body {
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  &__row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    &--highlight {
-      padding-top: 4px;
-    }
-  }
-
-  &__label {
-    font-size: 12px;
-    color: $text-secondary;
-  }
-
-  &__value {
-    font-size: 14px;
-    font-weight: 600;
-    color: $text-label;
-    font-family: "Cascadia Code", "Fira Code", monospace;
-
-    &--rest {
-      color: $success;
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-    &--work {
-      color: $accent;
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-    &--zero {
-      color: $text-secondary;
-      opacity: 0.6;
-    }
-  }
-
-  &__8h {
-    font-size: 12px;
-    font-weight: 500;
-    opacity: 0.6;
-  }
-
-  &__divider {
-    height: 1px;
-    background: $border;
-  }
-}
-
-.neodot-note {
-  margin-top: 12px;
-  font-size: 11px;
-  color: $text-secondary;
-  text-align: center;
-  opacity: 0.7;
-  list-style: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-
-  li + li::before {
-    content: "·";
-    margin-right: 6px;
-  }
-}
-

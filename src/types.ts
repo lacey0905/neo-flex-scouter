@@ -66,6 +66,20 @@ export interface BusinessDay {
   today: number;
 }
 
+export interface CompanyCalendarDay {
+  id: number;
+  ccmId: number;
+  date: string;
+  holidayYn: "Y" | "N";
+  familyDayYn: "Y" | "N";
+  neoDotYn: "Y" | "N";
+  comment?: string;
+  holiday: boolean;
+  weekend: boolean;
+  neoDot: boolean;
+  familyDay: boolean;
+}
+
 export interface AttendanceMonth {
   id: number;
   ccmId: number;
@@ -116,9 +130,10 @@ export interface DateAttendance {
   amId: number;
   ccdId: number;
   date: string;
-  holiday: string;
-  neoDot: string;
-  workStartDt: string;
+  holiday: "Y" | "N";
+  neoDot: "Y" | "N";
+  workStartDt?: string;
+  workEndDt?: string;
   workTime: number;
   workDayTime: number;
   workMorningNightTime: number;
@@ -138,9 +153,11 @@ export interface DateAttendance {
   breakTime: number;
   selfBreakTime: number;
   statutoryBreakTime: number;
+  vacationType?: "MORNING" | "AFTERNOON" | "ALL";
+  vacationName?: string;
   vacationPayTime: number;
+  comment?: string;
   startCnt: number;
-  vacation: boolean;
   workNightTime: number;
 }
 
@@ -151,4 +168,15 @@ export interface ApiResponse<T> {
     name: string;
     message: string;
   };
+}
+
+export interface DashboardData {
+  user: UserInfo;
+  daily: DailyAttendance | null;
+  monthSummary: AttendanceMonthSummary;
+  businessDay: BusinessDay;
+  calendarDays: CompanyCalendarDay[];
+  attendances: DateAttendance[];
+  attendanceMonth: AttendanceMonth;
+  vacationCount: number;
 }

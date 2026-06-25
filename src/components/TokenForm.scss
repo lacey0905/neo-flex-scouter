@@ -1,0 +1,89 @@
+@use "../styles/variables" as *;
+
+.token-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 28px;
+
+  &__input {
+    flex: 1;
+    min-width: 220px;
+    padding: 11px 14px;
+    background: $bg-input;
+    border: 1px solid $border;
+    border-radius: 8px;
+    color: $text-primary;
+    font-size: 13px;
+    font-family: "Cascadia Code", "Fira Code", monospace;
+    outline: none;
+    transition: border-color 0.2s;
+    &::placeholder { color: $text-secondary; }
+    &:focus { border-color: $border-focus; }
+  }
+
+  &__button {
+    padding: 11px 24px;
+    background: $accent;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+    &:hover:not(:disabled) { background: $accent-hover; }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+
+  &__divider {
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: $text-secondary;
+    font-size: 12px;
+    margin: 4px 0;
+
+    &::before,
+    &::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: $border;
+    }
+  }
+
+  &__google {
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 11px 24px;
+    background: #fff;
+    color: #1f1f1f;
+    border: 1px solid $border;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    &:hover:not(:disabled) { background: #f3f3f3; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+
+  &__google-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: conic-gradient(from -45deg, #ea4335 0deg 90deg, #fbbc05 90deg 180deg, #34a853 180deg 270deg, #4285f4 270deg 360deg);
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+  }
+}

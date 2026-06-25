@@ -5,10 +5,21 @@ import type {
   DailyAttendance,
   DateAttendance,
   BusinessDay,
+  CompanyCalendarDay,
   AttendanceMonth,
 } from "./types";
 
 const BASE_URL = "https://neo-flex-api.neowiz.com/flex";
+const AUTH_BASE = "https://neo-flex-api.neowiz.com";
+
+// 구글 SSO(Keycloak) 로그인 페이지로 보낼 URL.
+// 로그인 성공 시 redirectUri 로 ?token=<JWT> 를 붙여 돌려준다.
+export function getGoogleLoginUrl(): string {
+  const redirectUri = `${window.location.origin}${import.meta.env.BASE_URL}`;
+  return `${AUTH_BASE}/oauth2/authorization/keycloak?redirect_uri=${encodeURIComponent(
+    redirectUri
+  )}`;
+}
 
 function headers(token: string): HeadersInit {
   return {
@@ -49,6 +60,17 @@ export async function fetchBusinessDay(
   return res.json();
 }
 
+export async function fetchCalendarDays(
+  token: string,
+  yearMonth: string
+): Promise<ApiResponse<CompanyCalendarDay[]>> {
+  const res = await fetch(
+    `${BASE_URL}/company/calendar/month/${yearMonth}/day`,
+    { method: "GET", headers: headers(token) }
+  );
+  return res.json();
+}
+
 export async function fetchVacationCount(
   token: string,
   yearMonth: string
@@ -69,6 +91,17 @@ export async function fetchAttendanceMonth(
     `${BASE_URL}/attendance/month?empNo=${empNo}&yearMonth=${yearMonth}`,
     { method: "GET", headers: headers(token) }
   );
+  return res.json();
+}
+
+export async function fetchAttendances(
+  token: string,
+  yearMonth: string
+): Promise<ApiResponse<DateAttendance[]>> {
+  const res = await fetch(`${BASE_URL}/attendances?yearMonth=${yearMonth}`, {
+    method: "GET",
+    headers: headers(token),
+  });
   return res.json();
 }
 

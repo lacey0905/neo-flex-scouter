@@ -1,0 +1,465 @@
+@use "../styles/variables" as *;
+
+.calendar-section {
+  display: none;
+  margin-top: 28px;
+
+  @media (min-width: 1024px) {
+    display: block;
+  }
+}
+
+.calendar__titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  line-height: 28px;
+
+  .section-title {
+    margin-bottom: 0;
+  }
+}
+
+.calendar__reset {
+  padding: 5px 11px;
+  background: transparent;
+  border: 1px solid $border;
+  border-radius: 7px;
+  color: $text-secondary;
+  font-size: 11px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  &:hover {
+    border-color: $accent;
+    color: $accent;
+  }
+}
+
+.calendar {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: 12px;
+  padding: 14px;
+
+  &__head {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 6px;
+  }
+
+  &__dow {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: $text-secondary;
+    padding: 4px 0;
+
+    &--sun {
+      color: $error;
+    }
+    &--sat {
+      color: $accent;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 13px;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+
+  &__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid $border;
+    font-size: 11px;
+    color: $text-secondary;
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+}
+
+.legend-swatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  display: inline-block;
+
+  &--holiday {
+    background: rgba($error, 0.4);
+  }
+  &--vacation {
+    background: rgba($vacation, 0.5);
+  }
+}
+
+.cal-cell {
+  position: relative;
+  min-height: 62px;
+  border: 1px solid $border;
+  border-radius: 7px;
+  padding: 5px 6px;
+  display: flex;
+  flex-direction: column;
+  background: $bg-input;
+  overflow: hidden;
+
+  // 누적 잔고 히트맵 틴트 (주식 수익률 느낌)
+  &__heat {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+
+    &[data-dir="up"] {
+      background: $success;
+    }
+    &[data-dir="down"] {
+      background: $error;
+    }
+    &[data-dir="flat"] {
+      background: transparent;
+    }
+  }
+
+  &__top,
+  &__body {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 500px) {
+    min-height: 54px;
+    padding: 4px;
+  }
+
+  // 데스크탑 2분할: 달력이 넓어지므로 셀도 크게
+  @media (min-width: 1024px) {
+    min-height: 84px;
+    padding: 7px 8px;
+  }
+
+  &--empty {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  &--weekend {
+    opacity: 0.8;
+  }
+
+  &--holiday {
+    background: rgba($error, 0.08);
+    border-color: rgba($error, 0.25);
+  }
+
+  &--vacation {
+    background: rgba($vacation, 0.12);
+    border-color: rgba($vacation, 0.28);
+  }
+
+  &--neodot {
+    border-color: rgba($warning, 0.55);
+  }
+
+  &--future {
+    opacity: 0.65;
+  }
+
+  &--today {
+    border-color: $accent;
+    box-shadow: 0 0 0 1px $accent inset;
+    opacity: 1;
+  }
+
+  // 게이지 팝오버가 셀 밖으로 나올 수 있도록
+  &--editing {
+    overflow: visible;
+    z-index: 10;
+    opacity: 1;
+  }
+
+  &__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 4px;
+  }
+
+  &__daygroup {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  // 우측 상단 2줄: 그날 ± / 누적
+  &__pace {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  &__day {
+    font-size: 13px;
+    font-weight: 600;
+    color: $text-primary;
+
+    &--sun {
+      color: $error;
+    }
+    &--sat {
+      color: $accent;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 15px;
+    }
+  }
+
+  &__body {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    line-height: 1.2;
+  }
+
+  &__work {
+    font-size: 11px;
+    font-weight: 600;
+    color: $text-secondary;
+
+    &--live {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      color: $accent;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 12px;
+    }
+  }
+
+  // 8시간 기준 누적/일일 ± (주식 수익률식 색상)
+  &__delta {
+    font-size: 9px;
+    font-weight: 600;
+    opacity: 0.75;
+    font-family: "Cascadia Code", "Fira Code", monospace;
+
+    &[data-dir="up"] {
+      color: $success;
+    }
+    &[data-dir="down"] {
+      color: $error;
+    }
+    &[data-dir="flat"] {
+      color: $text-secondary;
+      opacity: 0.85;
+    }
+  }
+
+  &__cum {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    font-family: "Cascadia Code", "Fira Code", monospace;
+
+    &[data-dir="up"] {
+      color: $success;
+    }
+    &[data-dir="down"] {
+      color: $error;
+    }
+    &[data-dir="flat"] {
+      color: $text-secondary;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 11px;
+    }
+  }
+
+  &__live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $accent;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  &__times {
+    font-size: 10px;
+    color: $text-secondary;
+
+    @media (max-width: 500px) {
+      display: none;
+    }
+    @media (min-width: 1024px) {
+      font-size: 11px;
+    }
+  }
+
+  &__vacation {
+    font-size: 11px;
+    font-weight: 600;
+    color: $vacation;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (min-width: 1024px) {
+      font-size: 12px;
+    }
+  }
+
+  &__rest {
+    font-size: 11px;
+    color: $text-secondary;
+  }
+}
+
+.cal-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+
+  &--neodot {
+    background: rgba($warning, 0.2);
+    color: $warning;
+  }
+  &--family {
+    background: rgba($accent, 0.2);
+    color: $accent;
+  }
+}
+
+// ── 예상 근무시간 게이지 입력 ──
+.sim {
+  position: relative;
+}
+
+.sim__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: rgba($accent, 0.12);
+  border: 1px solid rgba($accent, 0.5);
+  border-radius: 999px;
+  color: $accent;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+
+  &:hover {
+    background: rgba($accent, 0.22);
+  }
+  &.is-open {
+    background: $accent;
+    border-color: $accent;
+    color: #fff;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 13px;
+    padding: 3px 10px;
+  }
+}
+
+.sim__pop {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 168px;
+  padding: 12px;
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  cursor: default;
+}
+
+.sim__value {
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  color: $accent;
+  font-family: "Cascadia Code", "Fira Code", monospace;
+}
+
+.sim__range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(
+    to right,
+    $accent 0%,
+    $accent var(--fill, 33%),
+    $border var(--fill, 33%),
+    $border 100%
+  );
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid $accent;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  &::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid $accent;
+    cursor: pointer;
+  }
+}
+
+.sim__scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 9px;
+  color: $text-secondary;
+}
