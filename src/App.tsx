@@ -3,32 +3,25 @@ import { useNow } from "./hooks/useNow";
 import { useDashboard } from "./hooks/useDashboard";
 import { useSimulation } from "./hooks/useSimulation";
 import { Header } from "./components/Header";
-import { TokenForm } from "./components/TokenForm";
+import { Login } from "./components/Login";
 import { Calendar } from "./components/Calendar";
 import { Summary } from "./components/Summary";
 import "./App.scss";
 
 function App() {
   const now = useNow();
-  const { token, setToken, loading, error, data, search, loginWithGoogle, logout } =
-    useDashboard();
+  const { loading, error, data, loginWithGoogle, logout } = useDashboard();
   const { getSimHours, setSim, resetSim, isSimDirty } = useSimulation();
 
   const metrics = computeMetrics(data, now, getSimHours);
 
-  return (
-    <div className="app">
-      <Header user={data?.user} onLogout={logout} />
+  const showLogin = !data && !loading;
 
-      {!data && (
-        <TokenForm
-          token={token}
-          loading={loading}
-          onTokenChange={setToken}
-          onSearch={() => search()}
-          onGoogleLogin={loginWithGoogle}
-        />
-      )}
+  return (
+    <div className={`app ${showLogin ? "app--login" : ""}`}>
+      {data && <Header user={data.user} onLogout={logout} />}
+
+      {showLogin && <Login loading={loading} onGoogleLogin={loginWithGoogle} />}
 
       {error && <div className="error-banner">{error}</div>}
 

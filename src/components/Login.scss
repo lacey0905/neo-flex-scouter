@@ -1,0 +1,129 @@
+@use "../styles/variables" as *;
+
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+
+  &__card {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: $space-4;
+    padding: 32px 28px;
+    border: 1px solid $hairline;
+    border-radius: $radius-xl;
+    background:
+      radial-gradient(circle at 18% -6%, rgba($accent, 0.16), transparent 34%),
+      radial-gradient(circle at 86% 6%, rgba($vacation, 0.12), transparent 32%),
+      linear-gradient(150deg, rgba(#1b2230, 0.98), rgba(#0f141e, 0.99) 56%, rgba(#090d13, 0.99));
+    box-shadow:
+      0 24px 60px rgba(#000, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, $accent, $vacation);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    box-shadow: 0 8px 20px rgba($accent, 0.35);
+  }
+
+  &__brandtext {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  &__title {
+    color: $text-strong;
+    font-size: $fs-lg;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+  }
+
+  &__subtitle {
+    color: $text-secondary;
+    font-size: $fs-caption;
+  }
+
+  &__desc {
+    color: $text-secondary;
+    font-size: $fs-body;
+    line-height: 1.6;
+  }
+
+  &__google {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 24px;
+    background: #fff;
+    color: #1f1f1f;
+    border: none;
+    border-radius: $radius-md;
+    font-size: $fs-md;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+  }
+
+  &__google-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: conic-gradient(
+      from -45deg,
+      #ea4335 0deg 90deg,
+      #fbbc05 90deg 180deg,
+      #34a853 180deg 270deg,
+      #4285f4 270deg 360deg
+    );
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  &__hint {
+    color: $text-secondary;
+    font-size: $fs-label;
+    opacity: 0.8;
+  }
+}

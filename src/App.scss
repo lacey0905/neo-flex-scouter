@@ -16,6 +16,15 @@
   @media (min-width: 1024px) {
     max-width: 1200px;
   }
+
+  // 로그인 화면: GNB 없이 카드 화면 정중앙 정렬
+  &--login {
+    max-width: none;
+    padding: 0;
+
+    @media (max-width: 500px) { padding: 0; }
+    @media (min-width: 1024px) { max-width: none; }
+  }
 }
 
 .error-banner {

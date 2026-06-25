@@ -20,9 +20,10 @@
   &__headline {
     display: flex;
     align-items: baseline;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: $space-2;
     color: $text-strong;
+    white-space: nowrap;
     font-size: $fs-md;
     font-weight: 800;
     line-height: 1.15;
@@ -32,6 +33,7 @@
       font-size: $fs-2xl;
       line-height: 1.08;
       font-family: "Cascadia Code", "Fira Code", monospace;
+      white-space: nowrap;
     }
 
     .work--plus & strong { color: $success-bright; }
