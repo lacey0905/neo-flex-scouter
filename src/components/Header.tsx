@@ -26,7 +26,20 @@ export function Header({ user, onLogout }: HeaderProps) {
     <header className="header">
       <div className="header__brand">
         <span className="header__logo" aria-hidden>
-          NF
+          <svg
+            className="header__logo-mark"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13.6 2.2 L5 13.4 H10.7 L9.3 21.8 L19.2 9.8 H13.1 L13.6 2.2 Z"
+              fill="#fff"
+              stroke="#fff"
+              strokeWidth="1.1"
+              strokeLinejoin="round"
+            />
+          </svg>
         </span>
         <div className="header__brand-text">
           <h1 className="header__title">

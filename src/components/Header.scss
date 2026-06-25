@@ -33,15 +33,21 @@
   border-radius: 10px;
   background: linear-gradient(135deg, $accent, $vacation);
   color: #fff;
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
   box-shadow: 0 4px 14px rgba($accent, 0.35);
 
   @media (max-width: 500px) {
     width: 32px;
     height: 32px;
-    font-size: 13px;
+  }
+}
+
+.header__logo-mark {
+  width: 24px;
+  height: 24px;
+
+  @media (max-width: 500px) {
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -52,10 +58,10 @@
 .header__title {
   font-size: 20px;
   font-weight: 700;
-  color: $text-primary;
+  color: #ffffff;
   letter-spacing: -0.5px;
   line-height: 1.1;
-  span { color: $accent; }
+  span { color: #ffffff; }
 
   @media (max-width: 500px) { font-size: 16px; }
 }
