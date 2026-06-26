@@ -11,9 +11,10 @@ import "./App.scss";
 function App() {
   const now = useNow();
   const { loading, error, data, loginWithGoogle, logout } = useDashboard();
-  const { getSimHours, setSim, resetSim, isSimDirty } = useSimulation();
+  const { getSimHours, setSim, clearSim, resetSim, isSimDirty, hasSim } =
+    useSimulation();
 
-  const metrics = computeMetrics(data, now, getSimHours);
+  const metrics = computeMetrics(data, now, getSimHours, hasSim);
 
   const showLogin = !data && !loading;
 
@@ -40,8 +41,12 @@ function App() {
             attendances={data.attendances}
             todayStr={metrics.todayStr}
             todayWorkSec={metrics.todayNetWorkSec}
+            todayWorkStartDt={data.daily?.workStartDt ?? null}
+            todaySelfBreakSec={data.daily?.selfBreakTime ?? 0}
             getSimHours={getSimHours}
+            hasSim={hasSim}
             onSimChange={setSim}
+            onClearSim={clearSim}
             onResetSim={resetSim}
             isSimDirty={isSimDirty}
           />

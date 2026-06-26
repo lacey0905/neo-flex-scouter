@@ -386,12 +386,24 @@
     background: $accent;
     border-color: $accent;
     color: #fff;
+
+    .cal-cell__live-dot {
+      background: #fff;
+    }
   }
 
   @media (min-width: 1024px) {
     font-size: 13px;
     padding: 3px 10px;
   }
+}
+
+// 오늘 셀 칩: 실시간/시뮬 시각 + 라이브 점을 한 줄로
+.sim__today {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "Cascadia Code", "Fira Code", monospace;
 }
 
 .sim__pop {
@@ -415,6 +427,15 @@
   font-size: 18px;
   font-weight: 800;
   color: $accent;
+  font-family: "Cascadia Code", "Fira Code", monospace;
+}
+
+.sim__sub {
+  text-align: center;
+  margin-top: -6px;
+  margin-bottom: 8px;
+  font-size: 11px;
+  color: $text-secondary;
   font-family: "Cascadia Code", "Fira Code", monospace;
 }
 
@@ -462,4 +483,35 @@
   margin-top: 6px;
   font-size: 9px;
   color: $text-secondary;
+}
+
+.sim__live-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 6px;
+  background: transparent;
+  border: 1px solid $border;
+  border-radius: 7px;
+  color: $text-secondary;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.18s, color 0.18s;
+
+  &::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $accent;
+  }
+
+  &:hover {
+    border-color: $accent;
+    color: $accent;
+  }
 }
