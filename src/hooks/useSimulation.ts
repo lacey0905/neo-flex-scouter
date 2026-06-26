@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export interface Simulation {
   getSimHours: (dateStr: string) => number;
@@ -11,9 +11,46 @@ export interface Simulation {
   isSimDirty: boolean;
 }
 
-/** 일자별 근무시간 시뮬레이션 상태 (단위: 시간, 미설정 시 기본값). */
+const STORAGE_KEY = "nfs.simHours";
+
+/** localStorage 에서 시뮬레이션 값을 읽어온다. 실패 시 빈 객체. */
+function loadSimHours(): Record<string, number> {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object") {
+      // 숫자 값만 통과시켜 오염된 데이터를 방어
+      const clean: Record<string, number> = {};
+      for (const [k, v] of Object.entries(parsed)) {
+        if (typeof v === "number" && Number.isFinite(v)) clean[k] = v;
+      }
+      return clean;
+    }
+  } catch {
+    // 파싱 실패는 무시
+  }
+  return {};
+}
+
+/** 일자별 근무시간 시뮬레이션 상태 (단위: 시간, 미설정 시 기본값). localStorage 영속. */
 export function useSimulation(defaultHours = 8): Simulation {
-  const [simHours, setSimHours] = useState<Record<string, number>>({});
+  const [simHours, setSimHours] = useState<Record<string, number>>(loadSimHours);
+
+  // 변경 시 localStorage 동기화
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      if (Object.keys(simHours).length === 0) {
+        window.localStorage.removeItem(STORAGE_KEY);
+      } else {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(simHours));
+      }
+    } catch {
+      // 저장 실패는 무시
+    }
+  }, [simHours]);
 
   const getSimHours = (dateStr: string) => simHours[dateStr] ?? defaultHours;
   const hasSim = (dateStr: string) => dateStr in simHours;
