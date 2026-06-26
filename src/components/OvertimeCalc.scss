@@ -1,0 +1,214 @@
+@use "../styles/variables" as *;
+
+// 우하단 고정 컨테이너 (버튼 + 팝업)
+.otc {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+
+  @media (max-width: 500px) {
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+.otc-fab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background: linear-gradient(135deg, $accent, $vacation);
+  box-shadow: 0 8px 24px rgba($accent, 0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
+
+  svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba($accent, 0.5);
+  }
+  &:active {
+    transform: translateY(0);
+  }
+  &.is-open {
+    transform: rotate(0);
+    box-shadow: 0 12px 30px rgba($accent, 0.55);
+  }
+
+  @media (max-width: 500px) {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.otc-panel {
+  width: 320px;
+  max-width: calc(100vw - 32px);
+  padding: 18px;
+  background: linear-gradient(160deg, rgba(#1b2230, 0.99), rgba(#0f141e, 0.99));
+  border: 1px solid $hairline;
+  border-radius: $radius-lg;
+  box-shadow: 0 24px 60px rgba(#000, 0.55);
+  animation: otc-pop 0.16s ease-out;
+  transform-origin: bottom right;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    font-size: $fs-md;
+    font-weight: 800;
+    color: $text-strong;
+  }
+
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: transparent;
+    border: 1px solid $hairline;
+    border-radius: 8px;
+    color: $text-secondary;
+    font-size: 11px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+
+    &:hover {
+      border-color: $accent;
+      color: $accent;
+    }
+  }
+}
+
+@keyframes otc-pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.otc-field {
+  display: block;
+  margin-bottom: 16px;
+
+  &__label {
+    @include kicker;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  &__input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: $bg-input;
+    border: 1px solid $border;
+    border-radius: $radius-md;
+    transition: border-color 0.15s;
+
+    &:focus-within {
+      border-color: $accent;
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: $text-primary;
+      font-size: 20px;
+      font-weight: 700;
+      font-family: "Cascadia Code", "Fira Code", monospace;
+
+      &::placeholder {
+        color: $text-secondary;
+        font-weight: 400;
+        font-size: 16px;
+      }
+    }
+
+    em {
+      color: $text-secondary;
+      font-size: 14px;
+      font-style: normal;
+    }
+  }
+}
+
+.otc-results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.otc-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px;
+  background: $panel;
+  border: 1px solid $hairline-soft;
+  border-radius: $radius-md;
+
+  &__label {
+    @include kicker;
+  }
+
+  &__hours {
+    font-size: $fs-caption;
+    color: $text-secondary;
+  }
+
+  &__pay {
+    margin-top: 2px;
+    font-size: $fs-lg;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+    font-family: "Cascadia Code", "Fira Code", monospace;
+  }
+
+  &--rest .otc-card__pay { color: $success-bright; }
+  &--work .otc-card__pay { color: $accent-bright; }
+}
+
+.otc-extra {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: rgba($vacation, 0.1);
+  border: 1px solid rgba($vacation, 0.3);
+  border-radius: $radius-md;
+  font-size: $fs-body;
+  color: $text-primary;
+  text-align: center;
+
+  strong {
+    color: $vacation;
+    font-weight: 800;
+  }
+}
+
+.otc-note {
+  margin-top: 14px;
+  font-size: $fs-label;
+  line-height: 1.5;
+  color: $text-secondary;
+  text-align: center;
+}

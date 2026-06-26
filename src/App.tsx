@@ -6,6 +6,7 @@ import { Header } from "./components/Header";
 import { Login } from "./components/Login";
 import { Calendar } from "./components/Calendar";
 import { Summary } from "./components/Summary";
+import { OvertimeCalc } from "./components/OvertimeCalc";
 import "./App.scss";
 
 function App() {
@@ -54,6 +55,8 @@ function App() {
           <Summary metrics={metrics} />
         </div>
       )}
+
+      {data && <OvertimeCalc metrics={metrics} />}
     </div>
   );
 }
